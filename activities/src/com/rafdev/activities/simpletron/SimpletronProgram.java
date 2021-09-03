@@ -4,6 +4,6 @@ public class SimpletronProgram {
     public static void main(String[] args) {
         Simpletron simpletron = new Simpletron();
 
-        simpletron.startSimulator();
+        simpletron.runSimulator();
     }
 }

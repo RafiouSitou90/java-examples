@@ -3,73 +3,57 @@ package com.rafdev.activities.simpletron;
 import java.util.Scanner;
 
 public class Simpletron {
-    // Read and Write Operations
-    private final int READ = 10;
-    private final int WRITE = 11;
-
-    // Load and Store Operations
-    private final int LOAD = 20;
-    private final int STORE = 21;
-
-    // Arithmetics Operations
-    private final int ADD = 30;
-    private final int SUBTRACT = 31;
-    private final int DIVIDE = 32;
-    private final int MULTIPLY = 33;
-
-    // Transfer of Control Operations
-    private final int BRANCH = 40;
-    private final int BRANCH_NEG = 41;
-    private final int BRANCH_ZERO = 42;
-    private final int HALT = 43;
-
     private final int MEMORY_SIZE = 100;
 
     private int accumulator;
     private int[] memory;
-    private int operationCode;
-    private int operand;
     private int instructionCounter;
 
     public Simpletron() {
-        welcomeMessage();
         initialize();
+        welcomeMessage();
     }
 
-    public void startSimulator() {
-        int userInstruction, memoryPointer = 0;
+    public void runSimulator() {
+        int input, memoryPointer = 0;
+        int operationCode, operand;
         Scanner sc = new Scanner(System.in);
 
         while (true) {
             if (memoryPointer == MEMORY_SIZE) {
-                System.out.println("\nMemory is full!");
                 break;
             }
 
-            System.out.printf("%02d ? ", memoryPointer);
-            userInstruction = sc.nextInt();
+            System.out.printf("[%02d]: ? ", memoryPointer);
+            input = sc.nextInt();
 
-            if (userInstruction == -9999) {
+            if (input == -9999) {
                 break;
-            } else {
-                memory[memoryPointer] = userInstruction;
-                memoryPointer++;
             }
+
+            memory[memoryPointer] = input;
+            memoryPointer++;
         }
 
         System.out.println("\n****\t Programa carregado               \t****");
         System.out.println("****\t Iniciando a execução do programa \t****\n");
 
-        for (int code: memory) {
+        for (int code : memory) {
             if (code != 0) {
-                load();
+                operationCode = memory[instructionCounter] / 100;
+                operand = memory[instructionCounter] % 100;
                 executeAction(operationCode, operand);
             }
         }
     }
 
+    private void initialize() {
+        memory = new int[MEMORY_SIZE];
+        instructionCounter = 0;
+    }
+
     private void welcomeMessage() {
-        System.out.println("****\tBem vindo ao Simpletron!                           \t****");
+        System.out.println("\n****\tBem vindo ao Simpletron!                           \t****");
         System.out.println("****\tPor favor insira uma instrução (ou data word)      \t****");
         System.out.println("****\tpor vez em seu programa. Eu vou digitar o número   \t****");
         System.out.println("****\to número de alocação e o ponto de interrogação (?).\t****");
@@ -78,93 +62,125 @@ public class Simpletron {
         System.out.println("****\tseu programa.                                      \t****\n");
     }
 
-    private void initialize() {
-        memory = new int[MEMORY_SIZE];
-        instructionCounter = 0;
-    }
-
-    private void load() {
-        operationCode = memory[instructionCounter] / 100;
-        operand = memory[instructionCounter] % 100;
-    }
-
     private void executeAction(int operation, int operands) {
+        // Read and Write Operations
+        final int READ = 10;
+        final int WRITE = 11;
+
+        // Load and Store Operations
+        final int LOAD = 20;
+        final int STORE = 21;
+
+        // Arithmetics Operations
+        final int ADD = 30;
+        final int SUBTRACT = 31;
+        final int DIVIDE = 32;
+        final int MULTIPLY = 33;
+
+        // Transfer of Control Operations
+        final int BRANCH = 40;
+        final int BRANCH_NEG = 41;
+        final int BRANCH_ZERO = 42;
+        final int HALT = 43;
+
         switch (operation) {
-            case READ:
-                Scanner sc = new Scanner(System.in);
-                System.out.print("Enter a number : ");
-                memory[operands] = sc.nextInt();
-                break;
-            case WRITE:
-                System.out.printf("Operation result : %d", memory[operands]);
-                break;
-            case LOAD:
-                accumulator = memory[operands];
-                break;
-            case STORE:
-                memory[operands] = accumulator;
-                break;
-            case ADD:
-                accumulator += memory[operands];
-                break;
-            case SUBTRACT:
-                accumulator -= memory[operands];
-                break;
-            case DIVIDE:
-                if (memory[operands] == 0) {
-                    System.out.println("Cannot divide by zero");
-                    System.exit(0);
-                } else {
-                    accumulator /= memory[operands];
-                }
-                break;
-            case MULTIPLY:
-                accumulator *= memory[operands];
-                break;
-            case BRANCH:
-                instructionCounter = operands;
-                break;
-            case BRANCH_NEG:
-                if (accumulator < 0) {
-                    instructionCounter = operands;
-                }
-                break;
-            case BRANCH_ZERO:
-                if (accumulator == 0) {
-                    instructionCounter = operands;
-                }
-                break;
-            case HALT:
-                showTheCore();
-                System.out.println("\nEnd of the program, process terminated!");
-                System.exit(0);
-                break;
+            case READ -> read(operands);
+            case WRITE -> write(operands);
+            case LOAD -> load(operands);
+            case STORE -> store(operands);
+            case ADD -> add(operands);
+            case SUBTRACT -> subtract(operands);
+            case DIVIDE -> divide(operands);
+            case MULTIPLY -> multiply(operands);
+            case BRANCH -> branch(operands);
+            case BRANCH_NEG -> branchNeg(operands);
+            case BRANCH_ZERO -> branchZero(operands);
+            case HALT -> halt();
         }
 
         instructionCounter++;
+        accumulator = memory[instructionCounter];
+    }
+
+    private void read(int position) {
+        Scanner sc = new Scanner(System.in);
+        System.out.printf("[%02d]: ", position);
+        memory[position] = sc.nextInt();
+    }
+
+    private void write(int position) {
+        System.out.printf("Data [%02d] = %04d", position, memory[position]);
+    }
+
+    private void load(int position) {
+        accumulator = memory[position];
+    }
+
+    private void store(int position) {
+        memory[position] = accumulator;
+    }
+
+    private void add(int position) {
+        accumulator += memory[position];
+    }
+
+    private void subtract(int position) {
+        accumulator -= memory[position];
+    }
+
+    private void multiply(int position) {
+        accumulator *= memory[position];
+    }
+
+    private void branch(int position) {
+        instructionCounter = position;
+    }
+
+    private void branchNeg(int position) {
+        if (accumulator < 0) {
+            instructionCounter = position;
+        }
+    }
+
+    private void branchZero(int position) {
+        if (accumulator == 0) {
+            instructionCounter = position;
+        }
+    }
+
+    private void divide(int position) {
+        if (memory[position] == 0) {
+            System.exit(0);
+        } else {
+            accumulator /= memory[position];
+        }
+    }
+
+    private void halt() {
+        showTheCore();
+        System.out.println("\nEnd of the program, process terminated!");
+        System.exit(0);
     }
 
     private void showTheCore() {
-        System.out.printf("\n\n%35s\n", "MEMORY");
+        System.out.println("\n");
 
-        for (int i = 0; i < 10; i++)
-        {
-            System.out.printf ("%6d", i);
+        for (int i = 0; i < 10; i++) {
+            System.out.printf("\t%7d", i);
         }
 
-        System.out.println();
+        System.out.println("\n");
         int counter = 0;
 
-        for (int i = 0; i < 10; i++)
-        {
+        for (int i = 0; i < 10; i++) {
             if (counter % 10 == 0)
-                System.out.printf ("%2d ", counter);
+                System.out.printf("%2d\t\t", counter);
 
             for (int j = 0; j < 10; j++) {
                 if (memory[counter] == 0) {
-                    System.out.print( "+0000 ");
+                    System.out.print("+____\t");
                 } else {
-                    System.out.printf("+%04d ", memory[counter]);
+                    System.out.printf("+%04d\t", memory[counter]);
                 }
 
                 counter++;

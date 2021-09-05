@@ -6,6 +6,7 @@ import com.rafdev.iesb.demo.restful.api.entity.post.Post;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,6 +25,7 @@ public class Category extends BaseEntity {
     private Long id;
 
     @Column(nullable = false, unique = true)
+    @NotBlank
     private String name;
 
     @Column(nullable = false, unique = true)

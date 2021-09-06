@@ -1,5 +1,6 @@
 package com.rafdev.iesb.demo.restful.api.entity.user;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.rafdev.iesb.demo.restful.api.entity.BaseEntity;
 import com.rafdev.iesb.demo.restful.api.entity.comment.Comment;
 import lombok.*;
@@ -56,6 +57,7 @@ public class User extends BaseEntity {
     @ToString.Exclude
     private Set<Role> roles = new HashSet<>();
 
+    @JsonManagedReference
     @OneToMany(
             targetEntity = Comment.class,
             mappedBy = "user",

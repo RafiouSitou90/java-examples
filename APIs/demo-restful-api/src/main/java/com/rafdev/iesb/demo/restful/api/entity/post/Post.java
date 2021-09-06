@@ -1,5 +1,7 @@
 package com.rafdev.iesb.demo.restful.api.entity.post;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.github.slugify.Slugify;
 import com.rafdev.iesb.demo.restful.api.entity.BaseEntity;
 import com.rafdev.iesb.demo.restful.api.entity.category.Category;
@@ -52,6 +54,7 @@ public class Post extends BaseEntity {
     @Column(name = "published_at")
     private LocalDateTime publishedAt;
 
+    @JsonBackReference
     @ManyToOne(
             targetEntity = User.class,
             cascade = CascadeType.ALL
@@ -62,6 +65,7 @@ public class Post extends BaseEntity {
     )
     private User user;
 
+    @JsonBackReference
     @ManyToOne(
             targetEntity = Category.class,
             cascade = CascadeType.ALL
@@ -72,6 +76,7 @@ public class Post extends BaseEntity {
     )
     private Category category;
 
+    @JsonBackReference
     @ManyToMany(
             targetEntity = Tag.class,
             cascade = CascadeType.ALL,
@@ -91,6 +96,7 @@ public class Post extends BaseEntity {
     @ToString.Exclude
     private Set<Tag> tags = new HashSet<>();
 
+    @JsonManagedReference
     @OneToMany(
             targetEntity = Comment.class,
             mappedBy = "post",
@@ -98,6 +104,17 @@ public class Post extends BaseEntity {
     )
     @ToString.Exclude
     private Set<Comment> comments = new HashSet<>();
+
+    public Post(String title, String summary, String content, String imageUrl, LocalDateTime publishedAt, User user, Category category) {
+        super();
+        this.title = title;
+        this.summary = summary;
+        this.content = content;
+        this.imageUrl = imageUrl;
+        this.publishedAt = publishedAt;
+        this.user = user;
+        this.category = category;
+    }
 
     public void computeSlug() {
         Slugify slugify = new Slugify();

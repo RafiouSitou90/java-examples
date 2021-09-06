@@ -1,5 +1,6 @@
 package com.rafdev.iesb.demo.restful.api.entity.category;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.github.slugify.Slugify;
 import com.rafdev.iesb.demo.restful.api.entity.BaseEntity;
 import com.rafdev.iesb.demo.restful.api.entity.post.Post;
@@ -31,6 +32,7 @@ public class Category extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String slug;
 
+    @JsonManagedReference
     @OneToMany(
             targetEntity = Post.class,
             mappedBy = "category",

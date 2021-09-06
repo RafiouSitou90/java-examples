@@ -33,4 +33,8 @@ public class Tag {
     )
     @ToString.Exclude
     private List<Post> posts;
+
+    public Tag(String tag) {
+        this.name = tag;
+    }
 }

@@ -19,7 +19,13 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "tab_users")
+@Table(
+        name = "tab_users",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "username"),
+                @UniqueConstraint(columnNames = "email")
+        }
+)
 public class User extends BaseEntity {
 
     @Id
@@ -57,4 +63,11 @@ public class User extends BaseEntity {
     )
     @ToString.Exclude
     private Set<Comment> comments = new HashSet<>();
+
+    public User(String username, String email, String passwordHashed) {
+        super();
+        this.username = username;
+        this.email = email;
+        this.password = passwordHashed;
+    }
 }

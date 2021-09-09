@@ -1,8 +1,10 @@
 package com.rafdev.iesb.demo.restful.api.entity.comment;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.rafdev.iesb.demo.restful.api.entity.BaseEntity;
 import com.rafdev.iesb.demo.restful.api.entity.post.Post;
 import com.rafdev.iesb.demo.restful.api.entity.user.User;
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,6 +31,7 @@ public class Comment extends BaseEntity {
     @Column(name = "published_at")
     private LocalDateTime publishedAt;
 
+    @JsonBackReference
     @ManyToOne(
             targetEntity = User.class,
             cascade = CascadeType.ALL,
@@ -41,6 +44,7 @@ public class Comment extends BaseEntity {
     )
     private User user;
 
+    @JsonBackReference
     @ManyToOne(
             targetEntity = Post.class,
             cascade = CascadeType.ALL,
@@ -52,4 +56,12 @@ public class Comment extends BaseEntity {
             nullable = false
     )
     private Post post;
+
+    public Comment(String content, Post post, User user) {
+        super();
+        this.content = content;
+        this.post = post;
+        this.user = user;
+        this.publishedAt = LocalDateTime.now();
+    }
 }

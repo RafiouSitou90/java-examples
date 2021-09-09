@@ -73,6 +73,6 @@ public class CommentServiceImpl implements CommentService {
     public void deleteCommentById(Long id) {
         Comment comment = getCommentById(id);
 
-        commentRepository.delete(comment);
+        commentRepository.deleteById(comment.getId());
     }
 }

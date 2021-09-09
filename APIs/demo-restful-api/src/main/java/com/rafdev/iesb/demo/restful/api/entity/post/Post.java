@@ -57,7 +57,7 @@ public class Post extends BaseEntity {
     @JsonBackReference
     @ManyToOne(
             targetEntity = User.class,
-            cascade = CascadeType.ALL
+            cascade = { CascadeType.PERSIST }
     )
     @JoinColumn(
             name = "user_id",
@@ -68,7 +68,7 @@ public class Post extends BaseEntity {
     @JsonBackReference
     @ManyToOne(
             targetEntity = Category.class,
-            cascade = CascadeType.ALL
+            cascade = { CascadeType.PERSIST }
     )
     @JoinColumn(
             name = "category_id",
@@ -79,7 +79,7 @@ public class Post extends BaseEntity {
     @JsonBackReference
     @ManyToMany(
             targetEntity = Tag.class,
-            cascade = CascadeType.ALL,
+            cascade = { CascadeType.PERSIST },
             fetch = FetchType.EAGER
     )
     @JoinTable(
@@ -100,7 +100,7 @@ public class Post extends BaseEntity {
     @OneToMany(
             targetEntity = Comment.class,
             mappedBy = "post",
-            cascade = CascadeType.ALL
+            cascade = { CascadeType.PERSIST }
     )
     @ToString.Exclude
     private Set<Comment> comments = new HashSet<>();

@@ -2,6 +2,7 @@ package com.rafdev.iesb.demo.restful.api.controller;
 
 import com.rafdev.iesb.demo.restful.api.entity.category.Category;
 import com.rafdev.iesb.demo.restful.api.entity.category.CategoryPage;
+import com.rafdev.iesb.demo.restful.api.payload.request.CategoryRequest;
 import com.rafdev.iesb.demo.restful.api.service.CategoryService;
 
 import org.springframework.data.domain.Page;
@@ -22,8 +23,8 @@ public class CategoryController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Category> saveCategory(@Valid @RequestBody Category category) {
-        return new ResponseEntity<>(categoryService.saveCategory(category), HttpStatus.CREATED);
+    public ResponseEntity<Category> saveCategory(@Valid @RequestBody CategoryRequest categoryRequest) {
+        return new ResponseEntity<>(categoryService.saveCategory(categoryRequest), HttpStatus.CREATED);
     }
 
     @GetMapping("")

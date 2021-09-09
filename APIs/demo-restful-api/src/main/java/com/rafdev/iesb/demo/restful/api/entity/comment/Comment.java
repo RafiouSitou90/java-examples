@@ -34,7 +34,7 @@ public class Comment extends BaseEntity {
     @JsonBackReference
     @ManyToOne(
             targetEntity = User.class,
-            cascade = CascadeType.ALL,
+            cascade = { CascadeType.PERSIST },
             optional = false
     )
     @JoinColumn(
@@ -47,7 +47,7 @@ public class Comment extends BaseEntity {
     @JsonBackReference
     @ManyToOne(
             targetEntity = Post.class,
-            cascade = CascadeType.ALL,
+            cascade = { CascadeType.PERSIST },
             optional = false
     )
     @JoinColumn(

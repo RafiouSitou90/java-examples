@@ -134,6 +134,6 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(resourceName, "Id", id));
 
-        postRepository.delete(post);
+        postRepository.deleteById(post.getId());
     }
 }

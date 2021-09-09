@@ -112,6 +112,6 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(resourceName, "Id", id));
 
-        userRepository.delete(user);
+        userRepository.deleteById(user.getId());
     }
 }

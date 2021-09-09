@@ -29,7 +29,7 @@ public class Tag {
     @ManyToMany(
             targetEntity = Post.class,
             mappedBy = "tags",
-            cascade = CascadeType.ALL
+            cascade = { CascadeType.PERSIST }
     )
     @ToString.Exclude
     private List<Post> posts;

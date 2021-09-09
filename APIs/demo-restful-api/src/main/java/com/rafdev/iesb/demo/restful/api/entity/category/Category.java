@@ -36,10 +36,15 @@ public class Category extends BaseEntity {
     @OneToMany(
             targetEntity = Post.class,
             mappedBy = "category",
-            cascade = CascadeType.ALL
+            cascade = { CascadeType.PERSIST }
     )
     @ToString.Exclude
     private Set<Post> posts = new HashSet<>();
+
+    public Category(String name) {
+        super();
+        this.name = name;
+    }
 
     public void computeSlug() {
         Slugify slugify = new Slugify();

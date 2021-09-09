@@ -3,6 +3,7 @@ package com.rafdev.iesb.demo.restful.api.service.impl;
 import com.rafdev.iesb.demo.restful.api.entity.category.Category;
 import com.rafdev.iesb.demo.restful.api.entity.category.CategoryPage;
 import com.rafdev.iesb.demo.restful.api.exception.ResourceNotFoundException;
+import com.rafdev.iesb.demo.restful.api.payload.request.CategoryRequest;
 import com.rafdev.iesb.demo.restful.api.repository.CategoryRepository;
 import com.rafdev.iesb.demo.restful.api.service.CategoryService;
 
@@ -23,7 +24,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category saveCategory(Category category) {
+    public Category saveCategory(CategoryRequest categoryRequest) {
+        Category category = new Category(categoryRequest.getName());
+
         return categoryRepository.save(category);
     }
 
@@ -56,6 +59,6 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(resourceName, "id", id));
 
-        categoryRepository.delete(category);
+        categoryRepository.deleteById(category.getId());
     }
 }

@@ -61,7 +61,7 @@ public class User extends BaseEntity {
     @OneToMany(
             targetEntity = Comment.class,
             mappedBy = "user",
-            cascade = CascadeType.ALL
+            cascade = { CascadeType.PERSIST, CascadeType.REMOVE }
     )
     @ToString.Exclude
     private Set<Comment> comments = new HashSet<>();

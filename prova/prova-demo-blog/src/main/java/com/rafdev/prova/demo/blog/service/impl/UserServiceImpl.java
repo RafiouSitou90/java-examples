@@ -1,6 +1,6 @@
 package com.rafdev.prova.demo.blog.service.impl;
 
-import com.rafdev.prova.demo.blog.dto.UserDTO;
+import com.rafdev.prova.demo.blog.dto.UserDto;
 import com.rafdev.prova.demo.blog.entity.ERole;
 import com.rafdev.prova.demo.blog.entity.Role;
 import com.rafdev.prova.demo.blog.entity.User;
@@ -27,13 +27,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> getUsers() {
-        List<UserDTO> usersDto = new ArrayList<>();
+    public List<UserDto> getUsers() {
+        List<UserDto> usersDto = new ArrayList<>();
         List<User> users = userRepository.findAll();
 
         for (User user: users) {
             String fullName = user.getFirstName() + " " + user.getLastName();
-            UserDTO userDto = new UserDTO(user.getId(), user.getUsername(), user.getEmail(), fullName, user.getRoles());
+            UserDto userDto = new UserDto(user.getId(), user.getUsername(), user.getEmail(), fullName, user.getRoles());
 
             usersDto.add(userDto);
         }
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO saveUser(UserCreationRequest userRequest) throws ResourceAlreadyExistsException {
+    public UserDto saveUser(UserCreationRequest userRequest) throws ResourceAlreadyExistsException {
         if (userRepository.existsById(userRequest.getId())) {
             throw new ResourceAlreadyExistsException("User", "Id", userRequest.getId());
         }
@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getUserById(Long id) {
+    public UserDto getUserById(Long id) {
         User user = userRepository.findById(id);
 
         if (user == null) {
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO updateUserById(Long id, UserCreationRequest userRequest) {
+    public UserDto updateUserById(Long id, UserCreationRequest userRequest) {
         User userFound = userRepository.findById(id);
 
         if (userFound == null) {
@@ -112,9 +112,9 @@ public class UserServiceImpl implements UserService {
         return setUserDTO(userUpdated);
     }
 
-    private UserDTO setUserDTO(User user) {
+    private UserDto setUserDTO(User user) {
         String fullName = user.getFirstName() + " " + user.getLastName();
-        return new UserDTO(user.getId(), user.getUsername(), user.getEmail(), fullName, user.getRoles());
+        return new UserDto(user.getId(), user.getUsername(), user.getEmail(), fullName, user.getRoles());
     }
 
     private List<Role> setUserRoles(List<String> strRoles) {

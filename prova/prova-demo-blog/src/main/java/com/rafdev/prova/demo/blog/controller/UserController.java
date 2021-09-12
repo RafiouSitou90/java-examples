@@ -1,7 +1,6 @@
 package com.rafdev.prova.demo.blog.controller;
 
-import com.rafdev.prova.demo.blog.dto.UserDTO;
-import com.rafdev.prova.demo.blog.entity.User;
+import com.rafdev.prova.demo.blog.dto.UserDto;
 import com.rafdev.prova.demo.blog.exception.ResourceNotFoundException;
 import com.rafdev.prova.demo.blog.payload.request.UserCreationRequest;
 import com.rafdev.prova.demo.blog.service.UserService;
@@ -22,23 +21,23 @@ public class UserController {
     }
 
     @PostMapping("")
-    public ResponseEntity<UserDTO> saveUser(@RequestBody UserCreationRequest userRequest) {
+    public ResponseEntity<UserDto> saveUser(@RequestBody UserCreationRequest userRequest) {
         return new ResponseEntity<>(userService.saveUser(userRequest), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> updateUserById(@PathVariable("id") Long id, @RequestBody UserCreationRequest userRequest)
+    public ResponseEntity<UserDto> updateUserById(@PathVariable("id") Long id, @RequestBody UserCreationRequest userRequest)
             throws ResourceNotFoundException {
         return new ResponseEntity<>(userService.updateUserById(id, userRequest), HttpStatus.OK);
     }
 
     @GetMapping("")
-    public ResponseEntity<List<UserDTO>> getUsers() {
+    public ResponseEntity<List<UserDto>> getUsers() {
         return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable("id") Long id) throws ResourceNotFoundException {
+    public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long id) throws ResourceNotFoundException {
         return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
     }
 

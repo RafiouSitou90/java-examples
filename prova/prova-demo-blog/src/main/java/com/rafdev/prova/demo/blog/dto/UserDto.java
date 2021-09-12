@@ -5,14 +5,14 @@ import com.rafdev.prova.demo.blog.entity.Role;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDTO {
+public class UserDto {
     private Long id;
     private String username;
     private String email;
     private String fullName;
     private List<String> roles;
 
-    public UserDTO(Long id, String username, String email, String fullName, List<Role> roles) {
+    public UserDto(Long id, String username, String email, String fullName, List<Role> roles) {
         List<String> strRoles = new ArrayList<>();
         roles.forEach(role -> {
             strRoles.add(role.getName().toString());

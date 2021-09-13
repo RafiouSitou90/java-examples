@@ -11,7 +11,11 @@ public class CategoryRepository {
     private final List<Category> categories;
 
     public CategoryRepository() {
-        this.categories = new ArrayList<>();;
+        this.categories = new ArrayList<>();
+
+        for (int i = 1; i <= 10; i++) {
+            this.categories.add(new Category((long) i, "New category name #" + i));
+        }
     }
 
     public List<Category> findAll() {

@@ -1,5 +1,7 @@
 package com.rafdev.prova.demo.blog.repository;
 
+import com.rafdev.prova.demo.blog.entity.ERole;
+import com.rafdev.prova.demo.blog.entity.Role;
 import com.rafdev.prova.demo.blog.entity.User;
 
 import java.util.*;
@@ -10,6 +12,16 @@ public class UserRepository {
 
     public UserRepository() {
         this.users = new ArrayList<>();
+
+        for (int i = 1; i <= 10; i++) {
+            String username = "username_" + i;
+            String email = "username_" + i + "@example.com";
+            String firstName = "John " + i;
+            String lastName = "Doe " + i;
+            List<Role> roles = new ArrayList<>();
+            roles.add(new Role(1L, ERole.ROLE_USER));
+            this.users.add(new User((long) i, username, email, "password", firstName, lastName, roles));
+        }
     }
 
     public List<User> findAll() {

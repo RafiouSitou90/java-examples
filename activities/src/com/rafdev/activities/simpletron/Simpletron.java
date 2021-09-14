@@ -24,8 +24,16 @@ public class Simpletron {
                 break;
             }
 
-            System.out.printf("[%02d]: ? ", memoryPointer);
-            input = sc.nextInt();
+            do {
+                System.out.printf("[%02d]: ? ", memoryPointer);
+                input = sc.nextInt();
+
+                if (input >= -9998 && input <= 999) {
+                    System.out.println("Wrong input, try again.");
+                }
+
+            } while (input >= -9998 && input <= 999);
+
 
             if (input == -9999) {
                 break;
